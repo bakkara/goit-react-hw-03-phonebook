@@ -6,5 +6,5 @@ export const Layout = styled.div`
     padding: 15px 15px;
     flex-direction: column;
     max-width: 1200px;
-    gap: 20px;
+    gap: 16px;
     `;
