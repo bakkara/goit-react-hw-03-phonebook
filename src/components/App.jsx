@@ -11,6 +11,22 @@ state = {
   filter: ''
   }
 
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('contacts')
+
+    if (savedContacts !== null) {
+      this.setState({
+        contacts: JSON.parse(savedContacts),
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
+
   addContact = newContact => {
     const { name, number } = newContact;
     const isExist = this.state.contacts.some(
@@ -18,17 +34,17 @@ state = {
         || contact.number === number
     );
   
-  if (isExist) {
-    alert(`${name} or ${number} is already in contacts.`);
-    return;
-  }
+    if (isExist) {
+      alert(`${name} or ${number} is already in contacts.`);
+      return;
+    }
 
-  this.setState(prevState => ({
-    contacts: [
-        ...prevState.contacts,
-        {id: nanoid(), ...newContact},
-      ],
-    }));
+    this.setState(prevState => ({
+      contacts: [
+          ...prevState.contacts,
+          {id: nanoid(), ...newContact},
+        ],
+      }));
   }
 
   deleteContact = contactId => {
